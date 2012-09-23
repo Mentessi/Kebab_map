@@ -1,8 +1,6 @@
 $(document).ready(
 	function(){
 		
-		
-		
 		getLocation();
 		
 		function getLocation()
@@ -78,7 +76,16 @@ $(document).ready(
 			var map = new google.maps.Map(mapDiv, options); //new map
 			
 			// add event handler for map movements ###NOT YET WORKING ###
-			google.maps.event.addListenerOnce(map, 'bounds_changed', function() {
+			google.maps.event.addListener(map, 'bounds_changed', function() {
+				
+				// get map bounds
+				// var bounds = map.getBounds();
+				// console.log(bounds.getSouthWest());
+				lat = map.getCenter().lat();
+				console.log(lat);
+				lng= map.getCenter().lng();
+				console.log(lng);
+				
 				$.getJSON("http://localhost:3000/location/ratings.json?long=" + lng + "&lat=" + lat, 
 					function (data) {
 						
@@ -142,7 +149,7 @@ $(document).ready(
 							
 						} // for loop
 						
-						console.log(places);
+						//console.log(places);
 						
 					} // anonymous inner function
 				);	// getJSON //arrays
