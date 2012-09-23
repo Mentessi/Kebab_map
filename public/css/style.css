@@ -1,0 +1,19 @@
+#map{
+	width:80%;
+	height:500px;
+	border: 1px solid black;
+}
+
+@font-face {
+	font-family: 'feasfbi';
+  	src: url('../fonts/feasfbi_-webfont.eot?') format('eot'), url('../fonts/feasfbi_-webfont.woff') format('woff'), url('../fonts/feasfbi_-webfont.ttf') format('truetype');
+}
+
+
+
+h1 {
+	font-size: 120px;
+	font-family: feasfbi, arial;
+	text-align: center;
+	line-height: 50%;
+}
