@@ -84,21 +84,20 @@ $(document).ready(
 					var position;
 					
 					function getPlaceLat(i){
-						if (data.FHRSEstablishment.EstablishmentCollection.EstablishmentDetail[i].Geocode==null){
-						}
-						else {
+						if (data.FHRSEstablishment.EstablishmentCollection.EstablishmentDetail[i].Geocode!=null){
 							return parseFloat(data.FHRSEstablishment.EstablishmentCollection.EstablishmentDetail[i].Geocode.Latitude);
 						}
 					} // getPlaceLat
 
 					function getPlaceLng(i){
-						if (data.FHRSEstablishment.EstablishmentCollection.EstablishmentDetail[i].Geocode==null){
-						} 
-						else {
+						if (data.FHRSEstablishment.EstablishmentCollection.EstablishmentDetail[i].Geocode!=null){
 							return parseFloat(data.FHRSEstablishment.EstablishmentCollection.EstablishmentDetail[i].Geocode.Longitude);
 						}
 					} // getPlaceLng
-
+					
+					//Infowindow variable
+					var infowindow;
+					
 					for (var t= 0; t < data.FHRSEstablishment.EstablishmentCollection.EstablishmentDetail.length; t++) {
 						// console.log("Latitude=" + getPlaceLat(t) + ", Longitude=" + getPlaceLng(t));
 						if (getPlaceLat(t)==null || getPlaceLng(t)==null) {
@@ -113,7 +112,27 @@ $(document).ready(
 							places.push(new google.maps.LatLng(getPlaceLat(t),getPlaceLng(t)));
 						}
 						
-						
+						// anonymous function (immediately invoked) for event Handlers for marker interactions
+						(function(i, marker) {
+							
+							google.maps.event.addListener(marker, 'click',
+								function() {
+								
+									// initialize the infowindow variable if not already initilized (i.e. on first iteration)
+									if (!infowindow) {
+										infowindow = new google.maps.InfoWindow();
+									}
+									
+									// Set the infowindow content
+									infowindow.setContent('A dodgy kebab shop');
+									
+									// Open the infowindow tied to the marker
+									infowindow.open(map, marker);
+									
+								} // anonymous inner function
+							); // addlistener
+							
+						})(t, marker); // immediately invoke the function and pass the variables in
 						
 					} // for loop
 					
