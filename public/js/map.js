@@ -1,6 +1,8 @@
 $(document).ready(
 	function(){
 		
+		
+		
 		getLocation();
 		
 		function getLocation()
@@ -65,7 +67,6 @@ $(document).ready(
 		function plotPlaces (lat, lng, zoom){
 
 			var mapDiv = document.getElementById('map');
-			
 			var latLng = new google.maps.LatLng(lat,lng);
 			
 			var options = {
@@ -79,8 +80,7 @@ $(document).ready(
 
 			$.getJSON("http://localhost:3000/data/fsadata.json", 
 				function (data) {
-				
-					var places = [];
+					
 					var position;
 					
 					function getPlaceLat(i){
@@ -95,8 +95,8 @@ $(document).ready(
 						}
 					} // getPlaceLng
 					
-					//Infowindow variable
 					var infowindow;
+					var places = [];
 					
 					for (var t= 0; t < data.FHRSEstablishment.EstablishmentCollection.EstablishmentDetail.length; t++) {
 						// console.log("Latitude=" + getPlaceLat(t) + ", Longitude=" + getPlaceLng(t));
