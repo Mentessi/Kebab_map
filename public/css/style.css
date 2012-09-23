@@ -53,3 +53,38 @@ h3 {
 	border-radius:5px;
 }
 
+/* TEST POPUP */
+
+
+.popup {
+	width: 300px;
+	height:150px;
+	border-radius:3px;
+	border:solid 1px black;
+}
+
+.yes {
+	background-color: green;
+}
+
+.no {
+	background-color: red;
+}
+
+.popup a {
+	color:white;
+	display: inline-block;
+	width: 100px;
+	height: 50px;
+	border-radius: 10px;
+	text-align: center;
+	border: solid 1px black;
+	box-shadow: 10px 10px 5px #888;
+	text-decoration: none;
+}
+
+.popup a:active {
+	box-shadow: 5px 5px 5px #888;
+	text-decoration: none;
+}
+
