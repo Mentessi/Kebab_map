@@ -77,71 +77,76 @@ $(document).ready(
 
 			var map = new google.maps.Map(mapDiv, options); //new map
 			
-
-			$.getJSON("http://localhost:3000/location/ratings.json?long=" + lng + "&lat=" + lat, 
-				function (data) {
-					
-					var position;
-					
-					function getPlaceLat(i){
-						if (data.FHRSEstablishment.EstablishmentCollection.EstablishmentDetail[i].Geocode!=null){
-							return parseFloat(data.FHRSEstablishment.EstablishmentCollection.EstablishmentDetail[i].Geocode.Latitude);
-						}
-					} // getPlaceLat
-
-					function getPlaceLng(i){
-						if (data.FHRSEstablishment.EstablishmentCollection.EstablishmentDetail[i].Geocode!=null){
-							return parseFloat(data.FHRSEstablishment.EstablishmentCollection.EstablishmentDetail[i].Geocode.Longitude);
-						}
-					} // getPlaceLng
-					
-					
-					
-					var infowindow;
-					var places = [];
-					
-					for (var t= 0; t < data.FHRSEstablishment.EstablishmentCollection.EstablishmentDetail.length; t++) {
-						// console.log("Latitude=" + getPlaceLat(t) + ", Longitude=" + getPlaceLng(t));
-						if (getPlaceLat(t)==null || getPlaceLng(t)==null) {
-							// do nothing cos position is null
-						}
-						else {
-							position = new google.maps.LatLng(getPlaceLat(t),getPlaceLng(t));
-							var marker = new google.maps.Marker({
-							position: position,
-							map: map,
-							}) // marker
-							places.push(new google.maps.LatLng(getPlaceLat(t),getPlaceLng(t)));
-						}
+			// add event handler for map movements ###NOT YET WORKING ###
+			google.maps.event.addListenerOnce(map, 'bounds_changed', function() {
+				$.getJSON("http://localhost:3000/location/ratings.json?long=" + lng + "&lat=" + lat, 
+					function (data) {
 						
-						// anonymous function (immediately invoked) for event Handlers for marker interactions
-						(function(i, marker) {
+						function getPlaceLat(i){
+							if (data.FHRSEstablishment.EstablishmentCollection.EstablishmentDetail[i].Geocode!=null){
+								return parseFloat(data.FHRSEstablishment.EstablishmentCollection.EstablishmentDetail[i].Geocode.Latitude);
+							}
+						} // getPlaceLat
+
+						function getPlaceLng(i){
+							if (data.FHRSEstablishment.EstablishmentCollection.EstablishmentDetail[i].Geocode!=null){
+								return parseFloat(data.FHRSEstablishment.EstablishmentCollection.EstablishmentDetail[i].Geocode.Longitude);
+							}
+						} // getPlaceLng
+						
+						var position;
+						var infowindow;
+						var places = [];
+						
+						for (var t= 0; t < data.FHRSEstablishment.EstablishmentCollection.EstablishmentDetail.length; t++) {
+							// console.log("Latitude=" + getPlaceLat(t) + ", Longitude=" + getPlaceLng(t));
+							if (getPlaceLat(t)==null || getPlaceLng(t)==null) {
+								// do nothing cos position is null
+							}
+							else {
+								position = new google.maps.LatLng(getPlaceLat(t),getPlaceLng(t));
+								var marker = new google.maps.Marker({
+								position: position,
+								map: map,
+								}) // marker
+								places.push(new google.maps.LatLng(getPlaceLat(t),getPlaceLng(t)));
+							}
 							
-							google.maps.event.addListener(marker, 'click',
-								function() {
+							// anonymous function (immediately invoked) for event Handlers for marker interactions
+							(function(i, marker) {
 								
-									// initialize the infowindow variable if not already initilized (i.e. on first iteration)
-									if (!infowindow) {
-										infowindow = new google.maps.InfoWindow();
-									}
+								google.maps.event.addListener(marker, 'click',
+									function() {
 									
-									// Set the infowindow content
-									infowindow.setContent('A dodgy kebab shop');
-									
-									// Open the infowindow tied to the marker
-									infowindow.open(map, marker);
-									
-								} // anonymous inner function
-							); // addlistener
+										// initialize the infowindow variable if not already initilized (i.e. on first iteration)
+										if (!infowindow) {
+											infowindow = new google.maps.InfoWindow();
+										}
+										
+										// Set the infowindow content
+										infowindow.setContent('<div class="popup">' +
+											 '<h3>Daves Deadly Kebab<h3>' +
+											 '<h4>125 the street, darlington</h4>' +
+											 '<div class="ratingIMG"><img src="img/score1.jpeg"/></div>' +
+											 '<a class="yes button green" href="#">Eat Here</a>' +
+											 '<a class="no button red" href="#">No Thanks</a>' +
+											'</div>');
+										
+										// Open the infowindow tied to the marker
+										infowindow.open(map, marker);
+										
+									} // anonymous inner function
+								); // addlistener
+								
+							})(t, marker); // immediately invoke the function and pass the variables in
 							
-						})(t, marker); // immediately invoke the function and pass the variables in
+						} // for loop
 						
-					} // for loop
-					
-					console.log(places);
-					
-				} // anonymous inner function
-			);	// getJSON //arrays
+						console.log(places);
+						
+					} // anonymous inner function
+				);	// getJSON //arrays
+			}); // addlistener ### NOT YET WORKING##
 		} // plotPlaces
 	} // anonymous inner function
 ); // $(document).ready
