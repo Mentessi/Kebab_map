@@ -1,5 +1,7 @@
 $(document).ready(function(){
 
+/* commit test */
+
 		getLocation();
 
 function getLocation()
