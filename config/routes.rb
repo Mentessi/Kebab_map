@@ -1,4 +1,6 @@
 KebabmapRails::Application.routes.draw do
+  get "location/ratings"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
