@@ -7,7 +7,7 @@ $(document).ready(
 		
 		function getLocation()
 		{
-			showMap(51.550, 0.616);
+			showMap(51.550, 0.616, 18);
 			if (navigator.geolocation) {
 				navigator.geolocation.getCurrentPosition(getLatLng);
 			}
@@ -17,7 +17,7 @@ $(document).ready(
 			var lat = position.coords.latitude
 			var lng = position.coords.longitude
 			
-			plotPlaces(lat, lng, 12);
+			plotPlaces(lat, lng, 17);
 		}
 
 
@@ -78,7 +78,7 @@ $(document).ready(
 			var map = new google.maps.Map(mapDiv, options); //new map
 			
 
-			$.getJSON("http://localhost:3000/data/fsadata.json", 
+			$.getJSON("http://localhost:3000/location/ratings.json?long=" + lng + "&lat=" + lat, 
 				function (data) {
 					
 					var position;
@@ -94,6 +94,8 @@ $(document).ready(
 							return parseFloat(data.FHRSEstablishment.EstablishmentCollection.EstablishmentDetail[i].Geocode.Longitude);
 						}
 					} // getPlaceLng
+					
+					
 					
 					var infowindow;
 					var places = [];
