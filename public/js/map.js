@@ -254,8 +254,17 @@ $(document).ready(function(){
 			} else {
 				return 'score' + RatingValue + '.jpg'
 			}
-			
 		} // get_RatingImageName
+		
+		function construct_InfoWindowContent(i) {
+			return '<div class="popup">' +
+				 '<h4>' + getData_BusinessName(i) + '<h4>' + 
+				 '<p>' + constructAddress(i) + '</p>' +
+				 '<div class="ratingIMG"><img src="img/' + get_RatingImageName(i) + '"/></div>' +
+				 '<a class="yes button green" href="#">Eat Here</a>' +
+				 '<a class="no button red" href="#">No Thanks</a>' +
+				'</div>'
+		} // construct_InfoWindowContent
 		
 		var position;
 		var places = [];
@@ -264,7 +273,7 @@ $(document).ready(function(){
 			// console.log("Latitude=" + get_Geocode_Latitude(t) + ", Longitude=" + get_Geocode_Longitude(t));
 			var Geocode_Latitude = getData_Geocode_Latitude(t);
 			var Geocode_Longitude = getData_Geocode_Longitude(t);
-			if (Geocode_Latitude==null || Geocode_Longitude==null) {
+			if (!Geocode_Latitude || !Geocode_Longitude) {
 				// do nothing cos position is null
 			}
 			else {
@@ -272,6 +281,7 @@ $(document).ready(function(){
 				var marker = new google.maps.Marker({
 				position: position,
 				map: map,
+				title: getData_BusinessName(t)
 				}) // marker
 				places.push(new google.maps.LatLng(Geocode_Latitude, Geocode_Longitude));
 			}
@@ -280,22 +290,13 @@ $(document).ready(function(){
 				google.maps.event.addListener(marker, 'click',
 					function() {
 						
-						
 						// initialize the infowindow variable if not already initilized (i.e. on first iteration)
 						if (!infowindow) {
 							infowindow = new google.maps.InfoWindow();
 						}
 						
 						// Set the infowindow content
-						infowindow.setContent('<div class="popup">' +
-							 '<h4>' + getData_BusinessName(i) + '<h4>' + 
-							 '<p>' + constructAddress(i) + '</p>' +
-							 '<div class="ratingIMG"><img src="img/' + get_RatingImageName(i) + '"/></div>' +
-							 '<a class="yes button green" href="#">Eat Here</a>' +
-							 '<a class="no button red" href="#">No Thanks</a>' +
-							'</div>');
-						
-						console.log(get_RatingImageName(i));
+						infowindow.setContent(construct_InfoWindowContent(i));
 
 						// Open the infowindow tied to the marker
 						infowindow.open(map, marker);
