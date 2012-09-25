@@ -247,6 +247,16 @@ $(document).ready(function(){
 			return Address
 		} // constructAddress
 		
+		function get_RatingImageName(i) {
+			var RatingValue = getData_RatingValue(i);
+			if (!RatingValue) {
+				return 'fhrs_awaitingpublication_en-gb.jpg'
+			} else {
+				return 'score' + RatingValue + '.jpg'
+			}
+			
+		} // get_RatingImageName
+		
 		var position;
 		var places = [];
 
@@ -280,10 +290,12 @@ $(document).ready(function(){
 						infowindow.setContent('<div class="popup">' +
 							 '<h4>' + getData_BusinessName(i) + '<h4>' + 
 							 '<p>' + constructAddress(i) + '</p>' +
-							 '<div class="ratingIMG"><img src="img/score' + getData_RatingValue(i) + '.jpg"/></div>' +
+							 '<div class="ratingIMG"><img src="img/' + get_RatingImageName(i) + '"/></div>' +
 							 '<a class="yes button green" href="#">Eat Here</a>' +
 							 '<a class="no button red" href="#">No Thanks</a>' +
 							'</div>');
+						
+						console.log(get_RatingImageName(i));
 
 						// Open the infowindow tied to the marker
 						infowindow.open(map, marker);
