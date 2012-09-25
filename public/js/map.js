@@ -292,6 +292,7 @@ $(document).ready(function(){
 				var marker = new google.maps.Marker({
 				position: position,
 				map: map,
+				icon: new google.maps.MarkerImage('img/restaurant.png'),
 				title: getData_BusinessName(t)
 				}) // marker
 				places.push(new google.maps.LatLng(Geocode_Latitude, Geocode_Longitude));
