@@ -43,7 +43,18 @@ $(document).ready(function(){
 		var options = {
 			center: latLng,
 			zoom: zoom,
-			mapTypeId: google.maps.MapTypeId.ROADMAP
+			mapTypeId: google.maps.MapTypeId.ROADMAP,
+			streetViewControl: true,
+			scrollwheel: false,
+			mapTypeControl: true,
+			mapTypeControlOptions: {
+				style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
+			},
+			disableDefaultUI: true,
+			navigationControl: true,
+			navigationControlOptions: {
+				style: google.maps.NavigationControlStyle.SMALL
+			}
 		}; //options
 
 		map = new google.maps.Map(mapDiv, options); //new map
@@ -261,8 +272,8 @@ $(document).ready(function(){
 				 '<h4>' + getData_BusinessName(i) + '<h4>' + 
 				 '<p>' + constructAddress(i) + '</p>' +
 				 '<div class="ratingIMG"><img src="img/' + get_RatingImageName(i) + '"/></div>' +
-				 '<a class="yes button green" href="#">Eat Here</a>' +
-				 '<a class="no button red" href="#">No Thanks</a>' +
+				 '<a class="yes button green" id="EatHereButton"' + i + ' href="#">Eat Here</a>' +
+				 '<a class="no button red" id="NoEatHereButton"' + i + 'href="#">No Thanks</a>' +
 				'</div>'
 		} // construct_InfoWindowContent
 		
