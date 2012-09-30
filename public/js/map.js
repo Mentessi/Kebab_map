@@ -272,12 +272,9 @@ $(document).ready(function(){
 		
 		function get_MarkerImageName(i) {
 			var ratingValue = getData_RatingValue(i);
-			console.log(ratingValue);
-			console.log(isNaN(ratingValue));
 			if(!ratingValue) {
 				return 'img/rating_unknown.png'
 			} else {
-				console.log('img/rating' + ratingValue)
 				return 'img/rating' + ratingValue + '.png'
 			}
 		} // get_RatingImageName
@@ -314,12 +311,11 @@ $(document).ready(function(){
 				// do nothing cos geocode latitude or longitude for the establishment is null
 			}
 			else {
-				var markerImage = get_MarkerImageName(t)
 				position = new google.maps.LatLng(Geocode_Latitude, Geocode_Longitude);
 				var marker = new google.maps.Marker({
 				position: position,
 				map: map,
-				icon: new google.maps.MarkerImage(markerImage),
+				icon: new google.maps.MarkerImage(get_MarkerImageName(t)),
 				title: getData_BusinessName(t)
 				}) // marker
 				markersArray.push(marker); //new google.maps.LatLng(Geocode_Latitude, Geocode_Longitude));
