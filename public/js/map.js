@@ -1,11 +1,14 @@
+var markersArray = [];
+var map;
+var mapDiv;
+var latLng;
+var lat;
+var lng;
+var infowindow;
+var timeoutHandle;
+var position;
+
 $(document).ready(function(){
-	var map;
-	var mapDiv;
-	var latLng;
-	var lat;
-	var lng;
-	var infowindow;
-	var timeoutHandle;
 	
 	getLocation();
 	
@@ -66,14 +69,14 @@ $(document).ready(function(){
 					clearTimeout(timeoutHandle);
 				}
 				timeoutHandle = setTimeout(function() {
-					plotPlaces(lat, lng, zoom);
+					plotNearbyPlaces(lat, lng, zoom);
 					timeoutHandle = null;
 				}, 500);
 			} // anonymous inner function
 		); // addlistener
 	} // showMap
 	
-	function plotPlaces (lat, lng, zoom){
+	function plotNearbyPlaces (lat, lng, zoom){
 		
 		// get map bounds
 		// var bounds = map.getBounds();
@@ -277,15 +280,26 @@ $(document).ready(function(){
 				'</div>'
 		} // construct_InfoWindowContent
 		
-		var position;
-		var places = [];
 
+		// Deletes all existing markers by removing references to them
+		function deleteMarkers(markersArray) {
+		  if (markersArray) {
+			for (i in markersArray) {
+			  markersArray[i].setMap(null);
+			}
+			markersArray.length = 0;
+		  }
+		} // deleteMarkers
+		
+		deleteMarkers(markersArray);
+		
+		//Loop through the establishments returned and listed in 'data'
 		for (var t= 0; t < data.FHRSEstablishment.EstablishmentCollection.EstablishmentDetail.length; t++) {
 			// console.log("Latitude=" + get_Geocode_Latitude(t) + ", Longitude=" + get_Geocode_Longitude(t));
 			var Geocode_Latitude = getData_Geocode_Latitude(t);
 			var Geocode_Longitude = getData_Geocode_Longitude(t);
 			if (!Geocode_Latitude || !Geocode_Longitude) {
-				// do nothing cos position is null
+				// do nothing cos geocode latitude or longitude for the establishment is null
 			}
 			else {
 				position = new google.maps.LatLng(Geocode_Latitude, Geocode_Longitude);
@@ -295,7 +309,7 @@ $(document).ready(function(){
 				icon: new google.maps.MarkerImage('img/restaurant.png'),
 				title: getData_BusinessName(t)
 				}) // marker
-				places.push(new google.maps.LatLng(Geocode_Latitude, Geocode_Longitude));
+				markersArray.push(marker); //new google.maps.LatLng(Geocode_Latitude, Geocode_Longitude));
 			}
 			
 			(function(i, marker) {
