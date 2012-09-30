@@ -61,22 +61,23 @@ $(document).ready(function(){
 		}; //options
 
 		map = new google.maps.Map(mapDiv, options); //new map
-
+		plotNearbyPlaces(lat, lng, zoom, map); // plot icons the first time
+		
 		// add event handler for map movements
-		google.maps.event.addListener(map, 'bounds_changed', 
+		google.maps.event.addListener(map, 'dragend', 
 			function() { 
 				if (timeoutHandle) {
 					clearTimeout(timeoutHandle);
 				}
 				timeoutHandle = setTimeout(function() {
-					plotNearbyPlaces(lat, lng, zoom);
+					plotNearbyPlaces(lat, lng, zoom, map);
 					timeoutHandle = null;
 				}, 1000);
 			} // anonymous inner function
 		); // addlistener
 	} // showMap
 	
-	function plotNearbyPlaces (lat, lng, zoom){
+	function plotNearbyPlaces (lat, lng, zoom, map){
 		
 		// get map bounds
 		// var bounds = map.getBounds();
