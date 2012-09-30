@@ -71,7 +71,7 @@ $(document).ready(function(){
 				timeoutHandle = setTimeout(function() {
 					plotNearbyPlaces(lat, lng, zoom);
 					timeoutHandle = null;
-				}, 500);
+				}, 1000);
 			} // anonymous inner function
 		); // addlistener
 	} // showMap
@@ -262,11 +262,23 @@ $(document).ready(function(){
 		} // constructAddress
 		
 		function get_RatingImageName(i) {
-			var RatingValue = getData_RatingValue(i);
-			if (!RatingValue) {
+			var ratingValue = getData_RatingValue(i);
+			if (!ratingValue) {
 				return 'fhrs_awaitingpublication_en-gb.jpg'
 			} else {
-				return 'score' + RatingValue + '.jpg'
+				return 'score' + ratingValue + '.jpg'
+			}
+		} // get_RatingImageName
+		
+		function get_MarkerImageName(i) {
+			var ratingValue = getData_RatingValue(i);
+			console.log(ratingValue);
+			console.log(isNaN(ratingValue));
+			if(!ratingValue) {
+				return 'img/rating_unknown.png'
+			} else {
+				console.log('img/rating' + ratingValue)
+				return 'img/rating' + ratingValue + '.png'
 			}
 		} // get_RatingImageName
 		
@@ -302,11 +314,12 @@ $(document).ready(function(){
 				// do nothing cos geocode latitude or longitude for the establishment is null
 			}
 			else {
+				var markerImage = get_MarkerImageName(t)
 				position = new google.maps.LatLng(Geocode_Latitude, Geocode_Longitude);
 				var marker = new google.maps.Marker({
 				position: position,
 				map: map,
-				icon: new google.maps.MarkerImage('img/restaurant.png'),
+				icon: new google.maps.MarkerImage(markerImage),
 				title: getData_BusinessName(t)
 				}) // marker
 				markersArray.push(marker); //new google.maps.LatLng(Geocode_Latitude, Geocode_Longitude));
