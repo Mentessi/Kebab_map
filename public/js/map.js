@@ -87,8 +87,8 @@ $(document).ready(function(){
 		lng= map.getCenter().lng();
 		console.log(lng);
 		
-		// http://localhost:3000/location/ratings.json?long=0.616&lat=51.550
-		$.getJSON("http://killer-kebab-hunter.herokuapp.com/location/ratings.json?long=" + lng + "&lat=" + lat, plotData);	// getJSON //arrays
+		$.getJSON("http://localhost:3000/location/ratings.json?long=" + lng + "&lat=" + lat, plotData); //getJSON //arrays
+		//$.getJSON("http://killer-kebab-hunter.herokuapp.com/location/ratings.json?long=" + lng + "&lat=" + lat, plotData);	// getJSON //arrays
 	} //plotPlaces
 	
 	function plotData(data) {
