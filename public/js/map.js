@@ -87,8 +87,12 @@ $(document).ready(function(){
 		lng= map.getCenter().lng();
 		console.log(lng);
 		
-		$.getJSON("http://localhost:3000/location/ratings.json?long=" + lng + "&lat=" + lat, plotData); //getJSON //arrays
-		//$.getJSON("http://killer-kebab-hunter.herokuapp.com/location/ratings.json?long=" + lng + "&lat=" + lat, plotData);	// getJSON //arrays
+		if (document.location.hostname == "localhost") {
+			$.getJSON("http://localhost:3000/location/ratings.json?long=" + lng + "&lat=" + lat, plotData); //getJSON //arrays
+		}
+		else {
+			$.getJSON("http://killer-kebab-hunter.herokuapp.com/location/ratings.json?long=" + lng + "&lat=" + lat, plotData);	// getJSON //arrays
+		}
 	} //plotPlaces
 	
 	function plotData(data) {
