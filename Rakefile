@@ -4,4 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-KebabmapRails::Application.load_tasks
+KebabMap::Application.load_tasks
